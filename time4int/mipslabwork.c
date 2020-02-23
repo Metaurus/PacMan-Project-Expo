@@ -15,10 +15,9 @@ For copyright and licensing, see file COPYING */
 #include "mipslab.h"  /* Declarations for these labs */
 
 int prime = 1234567;
-int mytime = 0x5957;
+int mytime = 0x0000;
 int timeoutcount = 0;
-
-void enableInterrupt(void);
+char difficulty = 0; 
 
 char textstring[] = "text, more text, and even more text!";
 
@@ -78,30 +77,32 @@ void labwork( void ) {
  display_string( 0, itoaconv( prime ) );
  display_update();
  
- int btnValue;
-  int swValue;
-  btnValue = getbtns();
-  if(btnValue != 0) {
-	if(btnValue & 0x1) { //BTN2
-		swValue = getsw();
-		swValue = swValue << 4;
-		mytime = (mytime & ~0x0f0) + (swValue & 0x0ff);
-	}
-	if(btnValue & 0x2) { //BTN3
-		swValue = getsw();
-		swValue = swValue << 8;
-		mytime = (mytime & ~0x0f00) + (swValue & 0x0f00);
-	}
-	if(btnValue & 0x4) { //BTN4
-		swValue = getsw();
-		swValue = swValue << 12;
-		mytime = (mytime & ~0x0f000) + (swValue & 0x0f000);
-	}		
-  }
+ 
+//Edward Leander - Controlling difficulty based upon the switches
+//Furthest left = Easy, Furthest right = Hard 
+ 
+  int swValue1,swValue2, swValue2;
+if (difficulty = 0) {
+//SW4, Furthest left switch
+		swValue1 = getsw();
+		swValue1 = swValue << 12;
+		if (swValue1 = 1)
+			difficulty = 1;
+
+//SW3, Middle switch
+		swValue2 = getsw();
+		swValue2 = swValue << 8;
+		if (swValue2 = 2)
+			difficulty = 2; 
+
+
+//SW2, Furthest right Switch
+		swValue3 = getsw();
+		swValue3 = swValue << 4;
+		if (swValue2 = 3)
+			difficulty = 3; 
 }
-//BTN2 = 001
-//BTN3 = 010
-//BTN4 = 100
+}
 
 //SW1 = 0001
 //SW2 = 0010
