@@ -18,6 +18,8 @@ int prime = 1234567;
 int mytime = 0x5957;
 int timeoutcount = 0;
 
+char lives = 3;
+
 void enableInterrupt(void);
 
 char textstring[] = "text, more text, and even more text!";
@@ -98,6 +100,29 @@ void labwork( void ) {
 		mytime = (mytime & ~0x0f000) + (swValue & 0x0f000);
 	}		
   }
+}
+
+//Andrejs Prihodjko
+void displayLives(char lives) {
+	
+	//Check number of lives and turn on LEDs accordingly
+	switch(lives) {
+		case 3:
+			*LED = 0x4;	//Three lights on
+			break;
+		case 2:
+			*LED = 0x2; //Two lights on
+			break;
+		case 1:
+			*LED = 0x1;	//One light on
+			break;
+		case 0:
+			*LED = 0x0;	//No lights on
+			break;
+		default:
+			break;
+	}
+	
 }
 //BTN2 = 001
 //BTN3 = 010
