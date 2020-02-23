@@ -1,13 +1,9 @@
 /* mipslabwork.c
-
 This file written 2015 by F Lundevall
 Updated 2017-04-21 by F Lundevall
-
 This file should be changed by YOU! So you must
 add comment(s) here with your name(s) and date(s):
-
 This file modified 2017-04-31 by Ture Teknolog 
-
 For copyright and licensing, see file COPYING */
 
 #include <stdint.h>   /* Declarations of uint_32 and the like */
@@ -18,6 +14,7 @@ int prime = 1234567;
 int mytime = 0x0000;
 int timeoutcount = 0;
 char difficulty = 0; 
+char lives = 3;
 
 char textstring[] = "text, more text, and even more text!";
 
@@ -108,15 +105,36 @@ if (difficulty = 0) {
 //SW3, Middle switch
 		swValue2 = getsw();
 		swValue2 = swValue << 8;
-		if (swValue2 = 2)
+		if (swValue2 = 1)
 			difficulty = 2; 
 
 
 //SW2, Furthest right Switch
 		swValue3 = getsw();
 		swValue3 = swValue << 4;
-		if (swValue2 = 3)
+		if (swValue2 = 1)
 			difficulty = 3; 
 }
+//Andrejs Prihodjko
+void displayLives(char lives) {
+	
+	//Check number of lives and turn on LEDs accordingly
+	switch(lives) {
+		case 3:
+			*LED = 0x4;	//Three lights on
+			break;
+		case 2:
+			*LED = 0x2; //Two lights on
+			break;
+		case 1:
+			*LED = 0x1;	//One light on
+			break;
+		case 0:
+			*LED = 0x0;	//No lights on
+			break;
+		default:
+			break;
+	}
+	
 }
-
+}
