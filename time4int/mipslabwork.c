@@ -116,4 +116,26 @@ if (difficulty = 0) {
 		if (swValue2 = 1)
 			difficulty = 3; 
 }
+//Andrejs Prihodjko
+void displayLives(char lives) {
+	
+	//Check number of lives and turn on LEDs accordingly
+	switch(lives) {
+		case 3:
+			*LED = 0x4;	//Three lights on
+			break;
+		case 2:
+			*LED = 0x2; //Two lights on
+			break;
+		case 1:
+			*LED = 0x1;	//One light on
+			break;
+		case 0:
+			*LED = 0x0;	//No lights on
+			break;
+		default:
+			break;
+	}
+	
+}
 }
