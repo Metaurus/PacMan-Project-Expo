@@ -16,6 +16,7 @@ int prime = 1234567;
 int mytime = 0x0000;
 int timeoutcount = 0;
 char difficulty = 0; 
+char lives = 3;
 
 char textstring[] = "text, more text, and even more text!";
 
