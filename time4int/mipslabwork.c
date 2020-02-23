@@ -26,17 +26,20 @@ volatile int *LED; //Declare *LED as a global pointer variable
 /* Interrupt Service Routine */
 void user_isr( void )	{
 	
+	//Andrej's code Lab 3 
+	
 	if(IFS(0) & 0x100) {
 		IFSCLR(0) = 0x100;
 		timeoutcount++;
 	}
 	
+	//Edward's code Lab 3 
 	if(IFS(0) & 0x080) {
 		*LED = *LED + 1;
 		IFSCLR(0) = 0x080;
 	}
 	
-	
+	//Lab 3 
 	if(timeoutcount == 10) {
 		time2string( textstring, mytime );
 		display_string( 3, textstring );
@@ -49,15 +52,20 @@ void user_isr( void )	{
 /* Lab-specific initialization goes here */
 void labinit( void )
 {
+	
+	//Andrej's code 
 	LED = (volatile int *) 0xbf886110; //Set LED address equal to the PORTE address
 	*LED &= 0x0ff; //Mask the last byte 
 	
+	//Edward's code 
 	TRISD = 0xFE0;
 	PR2 = ((80000000 / 256) / 10);
 	TMR2 = 0;
 
 	IEC(0) = 0x100;
 	
+	
+	//Andrej's code 
 	PORTE = 0;
 	IEC(0) = 0x80;
 	IPC(1) = 0xF000000;
@@ -73,6 +81,8 @@ void labinit( void )
 
 /* This function is called repetitively from the main program */
 void labwork( void ) {
+	
+//Given 
  prime = nextprime( prime );
  display_string( 0, itoaconv( prime ) );
  display_update();
@@ -80,8 +90,14 @@ void labwork( void ) {
  
 //Edward Leander - Controlling difficulty based upon the switches
 //Furthest left = Easy, Furthest right = Hard 
+
+
+//SW1 = 0001
+//SW2 = 0010
+//SW3 = 0100
+//SW4 = 1000
  
-  int swValue1,swValue2, swValue2;
+int swValue1,swValue2, swValue2;
 if (difficulty = 0) {
 //SW4, Furthest left switch
 		swValue1 = getsw();
@@ -104,7 +120,3 @@ if (difficulty = 0) {
 }
 }
 
-//SW1 = 0001
-//SW2 = 0010
-//SW3 = 0100
-//SW4 = 1000
