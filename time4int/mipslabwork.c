@@ -108,14 +108,14 @@ if (difficulty = 0) {
 //SW3, Middle switch
 		swValue2 = getsw();
 		swValue2 = swValue << 8;
-		if (swValue2 = 2)
+		if (swValue2 = 1)
 			difficulty = 2; 
 
 
 //SW2, Furthest right Switch
 		swValue3 = getsw();
 		swValue3 = swValue << 4;
-		if (swValue2 = 3)
+		if (swValue2 = 1)
 			difficulty = 3; 
 }
 }
