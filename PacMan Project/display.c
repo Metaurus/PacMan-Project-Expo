@@ -133,6 +133,34 @@ void display_update(void) {
 }
 
 //Edward Leander
+// Start screen
+void display_start(void) {
+	reset();
+	int x, y; 					
+	for(x = 0; x < 128; x++){
+		for(y = 0; y < 32; y++){
+			pixel_set(x, y, start_bitmap[y][x]);
+		}
+	}
+	display_update();
+}
+
+
+//Edward Leander
+// Display map
+void display_map(void) {
+	reset();
+	int x, y; 					
+	for(x = 0; x < 128; x++){
+		for(y = 0; y < 32; y++){
+			pixel_set(x, y, map_bitmap[y][x]);
+		}
+	}
+	display_update();
+}
+
+
+//Edward Leander
 // Game over screen 
 void display_end(void) {
 	reset();
@@ -145,18 +173,7 @@ void display_end(void) {
 		display_update();
 }
 
-//Edward Leander
-// Start screen
-void display_start(void) {
-	reset();
-	int x, y; 					
-	for(x = 0; x < 128; x++){
-		for(y = 0; y < 32; y++){
-			pixel_set(x, y, start_bitmap[y][x]);
-		}
-	}
-	display_update();
-}
+
 
 //Edward Leander
 // displaying the player (or ghosts)

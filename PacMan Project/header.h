@@ -12,6 +12,7 @@ void display_init(void);
 void display_score( char *s, char line);
 void display_end(void);
 void display_start(void);
+void display_map(void);
 void display_update(void);
 uint8_t display_send(uint8_t data);
 void pixel_on(char x, char y);

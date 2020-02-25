@@ -58,8 +58,8 @@ int main(void) {
 	
 	display_update();
 	
-	
-	init(); /*initialization */
+	/*initialization */
+	init(); 
 	
 	display_start();
 	
