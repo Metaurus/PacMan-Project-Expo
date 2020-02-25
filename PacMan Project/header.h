@@ -31,6 +31,7 @@ char gameover_bitmap[16][128];
 char obstacle_bitmap[8][8];
 char superman_bitmap[8][8];
 char start_bitmap[32][128];
+char map_bitmap[32][128];
 
 
 //Main
