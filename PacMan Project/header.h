@@ -18,6 +18,7 @@ uint8_t display_send(uint8_t data);
 void pixel_on(char x, char y);
 void quicksleep(int cyc);
 void pixel_off(char x, char y);
+void pacman_draw(char x, char y);
 void reset(void);
 char * itoaconv( int num );
 void pixel_set(char x, char y, char set);
@@ -31,7 +32,6 @@ char gameover_bitmap[16][128];
 char obstacle_bitmap[8][8];
 char superman_bitmap[8][8];
 char start_bitmap[32][128];
-char map_bitmap[32][128];
 
 
 //Main

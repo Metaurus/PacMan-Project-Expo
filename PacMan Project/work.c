@@ -20,7 +20,7 @@ char restart_text[16] = "High score: ";
 volatile int *LED;
 //DIFFICULTY SET TO 3 TEMPORARILY ---FIX IT
 char difficulty = 3;
-char lives = 0;
+char lives = 3;
 char movementDir = 'R';
 
 void wait(int ms);
@@ -87,6 +87,7 @@ void work() {
 	//While game is running
 	if (difficulty != 0 && lives != 0){
 		display_map();
+		pacman_draw(64,16);
 		score++;
 	}
 	

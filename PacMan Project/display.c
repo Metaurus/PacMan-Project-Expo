@@ -176,8 +176,8 @@ void display_end(void) {
 
 
 //Edward Leander
-// displaying the player (or ghosts)
-void player_draw(char x, char y){
+// displaying the pacman
+void pacman_draw(char x, char y){
 //	reset();
 //	draw_map();
 	int i, j;
