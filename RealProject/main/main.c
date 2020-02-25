@@ -58,16 +58,10 @@ int main(void) {
 	
 	display_update();
 	
+	/*initialization */
+	init(); 
 	
-	init(); /*initialization */
-	
-	int x, y; 					// start screen
-	for(x = 0; x < 128; x++){
-		for(y = 0; y < 32; y++){
-			pixel_set(x, y, start_bitmap[y][x]);
-		}
-	}
-	display_update();
+	display_start();
 	
 	while( 1 )
 	{

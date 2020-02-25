@@ -105,6 +105,7 @@ void reset(void){
 			display_matrix[x][y] = 0;
 		}
 	}
+	display_update();
 }
 
 // updates the screen
@@ -132,7 +133,35 @@ void display_update(void) {
 	
 }
 
-// game over screen 
+//Edward Leander
+// Start screen
+void display_start(void) {
+	reset();
+	int x, y; 					
+	for(x = 0; x < 128; x++){
+		for(y = 0; y < 32; y++){
+			pixel_set(x, y, start_bitmap[y][x]);
+		}
+	}
+	display_update();
+}
+
+
+//Edward Leander
+// Display map
+void display_map(void) {
+	int x, y; 					
+	for(x = 0; x < 128; x++){
+		for(y = 0; y < 32; y++){
+			pixel_set(x, y, map_bitmap[y][x]);
+		}
+	}
+	display_update();
+}
+
+
+//Edward Leander
+// Game over screen 
 void display_end(void) {
 	reset();
 	int x, y; 					// start screen
@@ -142,6 +171,24 @@ void display_end(void) {
 		}
 	}
 		display_update();
+}
+
+
+
+//Edward Leander
+// displaying the pacman
+void pacman_draw(char x, char y){
+	int i, j;
+    for(i = 0; i < 8; i++){
+        for(j = 0; j < 8; j++){
+           if (pacman_bitmap[i][j] == 1) {
+			   if(display_matrix[x + i][y + j]==0){
+				   pixel_on(x + i, y + j);
+			   }   
+            }
+        }
+    } 
+	display_update();
 }
 
 // display initialization

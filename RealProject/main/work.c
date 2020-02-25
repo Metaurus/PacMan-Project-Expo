@@ -18,21 +18,12 @@ int score = 0;
 char restart_text[16] = "High score: ";
 
 volatile int *LED;
-char difficulty = 0;
-char lives = 0;
+//DIFFICULTY SET TO 3 TEMPORARILY ---FIX IT
+char difficulty = 3;
+char lives = 3;
 char movementDir = 'R';
 
 void wait(int ms);
-
-// game over screen and restart
-void game_over(){
-	int x, y;
-	for(x = 0; x < 128; x++){
-		for(y = 0; y < 16; y++){
-			pixel_set(x, y, gameover_bitmap[y][x]);
-		}
-	}
-}
 
 // Initialization
 void init(){
@@ -59,21 +50,6 @@ void init(){
 	
 }
 
-// displaying the player
-void player_draw(char x, char y){
-	int i, j;
-    for(i = 0; i < 8; i++){
-        for(j = 0; j < 8; j++){
-           if (superman_bitmap[i][j] == 1) {
-			   if(display_matrix[x + i][y + j]==1){
-				   game_over(score);
-			   }
-                pixel_on(x + i, y + j);
-            }
-        }
-    } 
-}
-
 // delay function
 void wait(int ms){
     int i = 0;
@@ -91,32 +67,26 @@ void object_draw(){
 }
 
 
-// does everythin
+//does everything
 void work() {
+	//Conditions to start up the game 
 	displayLives();
+	
+	while(difficulty == 0) {
+		setDifficulty();
+	}
+	
 	displayDifficulty();
-
-	int swValue = getsw();
-	if (difficulty == 0) {
-		
-		//swValue is wrong. FIX IT ------------------------------------------------------------
-		
-		if (swValue == 8) difficulty = 1;
-
-		//SW3, Middle switch
-		if (swValue == 4) difficulty = 2; 
-
-		//SW2, Furthest right Switch
-		if (swValue == 2) difficulty = 3; 
-	}
 	
-	if (difficulty != 0){
+	//While game is running
+	if (difficulty != 0 && lives != 0) {
 		reset();
-		display_update();
-	}
-
-	score++;
+		display_map();
+//		pacman_draw(56,10);
+		score++;
+	}	
 	
+	//Game end
 	if (lives == 0){
 		display_end();
 	}
@@ -125,7 +95,6 @@ void work() {
 void user_isr(void){
 	
 }
-
 
 //Andrejs Prihodjko
 void displayLives() { 
@@ -167,6 +136,31 @@ void displayDifficulty() {
 			break;
 	}
 	
+}
+
+
+void setDifficulty() {
+		//swValue is wrong. FIX IT ------------------------------------------------------------
+		//*LED = swValue;
+		volatile int swValue = 0;
+		while(difficulty == 0) {
+			swValue = (volatile int) getsw();
+			if (swValue == 8) {
+				difficulty = 1;
+			}
+
+			//SW3, Middle switch
+			if (swValue == 4) {
+				difficulty = 2; 
+			}
+
+			//SW2, Furthest right Switch
+			if (swValue == 2) {
+				difficulty = 3; 
+			}
+		}
+		
+		
 }
 
 //BTN2 = 001

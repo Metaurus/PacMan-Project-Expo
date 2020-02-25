@@ -6,8 +6,8 @@ int getsw(void);
 int getbtns(void);
 
 int getsw(void) {
-	int switches;
-	switches = (PORTD >> 8) & 0x0F;
+	volatile int switches;
+	switches = (volatile int)(PORTD >> 8) & 0x00F;
 	return switches;
 }
 
