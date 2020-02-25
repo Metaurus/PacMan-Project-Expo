@@ -191,6 +191,22 @@ void pacman_draw(char x, char y){
 	display_update();
 }
 
+//Edward Leander
+// displaying the ghost
+void ghost_draw(char x, char y){
+	int i, j;
+    for(i = 0; i < 8; i++){
+        for(j = 0; j < 8; j++){
+           if (ghost_bitmap[i][j] == 1) {
+			   if(display_matrix[x + i][y + j]==0){
+				   pixel_on(x + i, y + j);
+			   }   
+            }
+        }
+    } 
+	display_update();
+}
+
 // display initialization
 void display_init(void) {
     DISPLAY_CHANGE_TO_COMMAND_MODE;
