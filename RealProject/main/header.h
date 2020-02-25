@@ -19,6 +19,7 @@ void pixel_on(char x, char y);
 void quicksleep(int cyc);
 void pixel_off(char x, char y);
 void pacman_draw(char x, char y);
+void ghost_draw(char x, char y);
 void reset(void);
 char * itoaconv( int num );
 void pixel_set(char x, char y, char set);
@@ -29,10 +30,10 @@ char display_matrix[128][32];
 extern const uint8_t const font[128*8];
 extern char textbuffer[4][16];
 char gameover_bitmap[16][128];
-char obstacle_bitmap[8][8];
 char map_bitmap[32][128];
 char pacman_bitmap[8][8];
 char start_bitmap[32][128];
+char ghost_bitmao[8][8];
 
 
 //Main
