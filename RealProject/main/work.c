@@ -14,6 +14,13 @@
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "header.h"  /* Declatations for these labs */
 
+extern char pacman_x;
+extern char pacman_y;
+extern char ghost1_x;
+extern char ghost1_y;
+extern char ghost2_x;
+extern char ghost2_y;
+
 int score = 0;
 char restart_text[16] = "High score: ";
 
@@ -35,6 +42,8 @@ void init(){
 	TMR2 = 0;
 
 	IEC(0) = 0x100;
+	
+	TRISFSET = 0x2; //BTN1 implementation
 	
 	PORTE = 0;
 	IEC(0) = 0x80;
@@ -72,18 +81,21 @@ void work() {
 	//Conditions to start up the game 
 	displayLives();
 	
+	/*
 	while(difficulty == 0) {
 		setDifficulty();
 	}
 	
 	displayDifficulty();
-	
+	*/
 	//While game is running
 	if (difficulty != 0 && lives != 0) {
 		reset();
 		display_map();
-//		pacman_draw(56,10);
-		score++;
+		moveDown(&pacman_x, &pacman_y);
+		pacman_draw(pacman_x, pacman_y);
+		ghost_draw(32,10);
+		display_update();
 	}	
 	
 	//Game end

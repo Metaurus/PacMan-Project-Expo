@@ -33,14 +33,21 @@ char gameover_bitmap[16][128];
 char map_bitmap[32][128];
 char pacman_bitmap[8][8];
 char start_bitmap[32][128];
-char ghost_bitmao[8][8];
+char ghost_bitmap[8][8];
 
+//Movement
+void moveUp(char * x, char * y);
+void moveDown(char * x, char * y);
+void moveLeft(char * x, char * y);
+void moveRight(char * x, char * y);
+void player_move();
 
 //Main
 void init();
 
 //Input
 int getbtns(void);
+int getbtn1(void);
 int getsw(void);
 void enable_interrupt(void);
 

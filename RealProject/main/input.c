@@ -18,3 +18,11 @@ int getbtns(void) {
 		return buttons;
 	}
 }
+
+int getbtn1(void) {
+	while(1) {
+		int buttons;
+		buttons = (PORTF >> 1) & 0x01;
+		return buttons;
+	}
+}

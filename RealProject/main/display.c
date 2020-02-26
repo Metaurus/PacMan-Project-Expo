@@ -1,7 +1,6 @@
 /* mipslabfunc.c
    This file written 2015 by F Lundevall
    Some parts are original code written by Axel Isaksson
-
    For copyright and licensing, see file COPYING */
 
 #include <stdint.h>   /* Declarations of uint_32 and the like */
@@ -156,7 +155,6 @@ void display_map(void) {
 			pixel_set(x, y, map_bitmap[y][x]);
 		}
 	}
-	display_update();
 }
 
 
@@ -181,14 +179,11 @@ void pacman_draw(char x, char y){
 	int i, j;
     for(i = 0; i < 8; i++){
         for(j = 0; j < 8; j++){
-           if (pacman_bitmap[i][j] == 1) {
-			   if(display_matrix[x + i][y + j]==0){
-				   pixel_on(x + i, y + j);
-			   }   
+           if (pacman_bitmap[j][i] == 1) {
+				pixel_on(x + i, y + j);   
             }
         }
     } 
-	display_update();
 }
 
 //Edward Leander
@@ -197,14 +192,11 @@ void ghost_draw(char x, char y){
 	int i, j;
     for(i = 0; i < 8; i++){
         for(j = 0; j < 8; j++){
-           if (ghost_bitmap[i][j] == 1) {
-			   if(display_matrix[x + i][y + j]==0){
-				   pixel_on(x + i, y + j);
-			   }   
+           if (ghost_bitmap[j][i] == 1) {
+				pixel_on(x + i, y + j);   
             }
         }
     } 
-	display_update();
 }
 
 // display initialization
@@ -273,4 +265,3 @@ char * itoaconv( int num )
    * we must add 1 in order to return a pointer to the first occupied position. */
   return( &itoa_buffer[ i + 1 ] );
 }
-

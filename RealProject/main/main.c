@@ -29,6 +29,7 @@ int main(void) {
 	ODCE = 0x0;
 	TRISECLR = 0xFF;
 	PORTE = 0x0;
+
 	
 	/* Output pins for display signals */
 	PORTF = 0xFFFF;
