@@ -15,9 +15,9 @@ void moveUp(char * x, char * y) {
 	char x1 = (*x);
 	char x2 = (*x) + 7;
 	//Looking at upper corners of object. If no wall, allow current Y to decrement. Test for x1 (top left) & x2 (top right)
-	//if(map_bitmap[nextY][x1] == 0 && map_bitmap[nextY][x2] == 0) {
+	if(display_matrix[x1][nextY] == 0 && display_matrix[x2][nextY] == 0) {
 		(*y) = (*y) - 1;
-	//}
+	}
 }
 
 void moveDown(char * x, char * y) {
@@ -25,7 +25,7 @@ void moveDown(char * x, char * y) {
 	char x1 = (*x);
 	char x2 = (*x) + 7;
 	//Looking at lower corners of object (hence - 8). If no wall, allow current Y to increment. Test for x1 (bottom left) & x2 (bottom right)
-	if(map_bitmap[nextY][x1] == 0 && map_bitmap[nextY][x2] == 0) {
+	if(display_matrix[x1][nextY] == 0 && display_matrix[x2][nextY] == 0) {
 		(*y) = (*y) + 1;
 	}
 }
@@ -35,7 +35,7 @@ void moveRight(char * x, char * y) {
 	char y1 = (*y);
 	char y2 = (*y) - 7;
 	//Looking at right corners of object (hence + 8). If no wall, allow current X to increment (right). Test for y1 (top right) & y2 (bottom right)
-	if(map_bitmap[y1][nextX] == 0 && map_bitmap[y2][nextX] == 0) {
+	if(display_matrix[nextX][y1] == 0 && display_matrix[nextX][y2] == 0) {
 		(*x) = (*x) + 1;
 	}
 }
@@ -45,7 +45,7 @@ void moveLeft(char * x, char * y) {
 	char y1 = (*y);
 	char y2 = (*y) - 7;
 	//Looking at left corners of object. If no wall, allow current X to decrement (left). Test for y1 (top left) & y2 (bottom left)
-	if(map_bitmap[y1][nextX] == 0 && map_bitmap[y2][nextX] == 0) {
+	if(display_matrix[nextX][y1] == 0 && display_matrix[nextX][y2] == 0) {
 		(*x) = (*x) - 1;
 	}
 }
@@ -57,6 +57,7 @@ void player_move(){
 	volatile int btnvalue = getbtns();
 	volatile int btn1 = getbtn1();
 	
+	wait(10);
 	switch(btnvalue) {
 		case 4: //BTN4
 			moveUp(&pacman_x, &pacman_y);

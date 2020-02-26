@@ -26,7 +26,7 @@ char restart_text[16] = "High score: ";
 
 volatile int *LED;
 //DIFFICULTY SET TO 3 TEMPORARILY ---FIX IT
-char difficulty = 3;
+char difficulty = 0;
 char lives = 3;
 char movementDir = 'R';
 
@@ -37,22 +37,17 @@ void init(){
 	LED = (volatile int *) 0xbf886110; //Set LED address equal to the PORTE address
 	*LED &= 0x0ff; //Mask the last byte 
 	
-	TRISD = 0xFE0;
-	PR2 = ((80000000 / 256) / 10);
-	TMR2 = 0;
-
-	IEC(0) = 0x100;
+	PORTE = 0;
 	
+	//Button 2-4 and switches initilisation
+	TRISDSET = 0xFE0;
 	TRISFSET = 0x2; //BTN1 implementation
 	
-	PORTE = 0;
-	IEC(0) = 0x80;
-	IPC(1) = 0xF000000;
-	T2CON = 0x70;
-	IECSET(0) = 0x00000100;
-	IPC(2) = 0x1F;
-	T2CONSET = 0x8000;
 	
+	//Timer initilisation
+	T2CONSET = 0x8070;
+	PR2 = 0x4e2;
+
 	enable_interrupt();
 	
 	return;
@@ -61,6 +56,7 @@ void init(){
 
 // delay function
 void wait(int ms){
+	TMR2 = 0;
     int i = 0;
     while(i < ms)
     {
@@ -79,20 +75,17 @@ void object_draw(){
 //does everything
 void work() {
 	//Conditions to start up the game 
-	displayLives();
-	
-	/*
 	while(difficulty == 0) {
+		wait(100);
 		setDifficulty();
+		displayDifficulty();
 	}
-	
-	displayDifficulty();
-	*/
+	displayLives();
 	//While game is running
 	if (difficulty != 0 && lives != 0) {
-		reset();
 		display_map();
-		moveDown(&pacman_x, &pacman_y);
+		wait(5);
+		player_move();
 		pacman_draw(pacman_x, pacman_y);
 		ghost_draw(32,10);
 		display_update();
@@ -101,7 +94,10 @@ void work() {
 	//Game end
 	if (lives == 0){
 		display_end();
+		wait(5000);
+		difficulty = 0;
 	}
+	
 }
 	
 void user_isr(void){
