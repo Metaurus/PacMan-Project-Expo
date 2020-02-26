@@ -56,3 +56,5 @@ void setDifficulty();
 void displayDifficulty();
 void displayLives();
 void work();
+void resetGameSwitch();
+void resetGame();

@@ -25,15 +25,47 @@ int score = 0;
 char restart_text[16] = "High score: ";
 
 volatile int *LED;
-//DIFFICULTY SET TO 3 TEMPORARILY ---FIX IT
 char difficulty = 0;
 char lives = 3;
-char movementDir = 'R';
+
 
 void wait(int ms);
 
+//does everything
+void work() {
+	//Conditions to start up the game 
+	while(difficulty == 0) {
+		wait(100);
+		setDifficulty();
+		displayDifficulty();
+	}
+	displayLives();
+	//While game is running
+	if (difficulty != 0 && lives != 0) {
+		display_map();
+		wait(3);
+		player_move();
+		pacman_draw(pacman_x, pacman_y);
+		ghost_draw(32,10);
+		display_update();
+		resetGameSwitch();
+	}	
+	
+	//Game end
+	if (lives == 0){
+		display_end();
+		wait(5000);
+		resetGame();
+	}
+	
+
+}
+
+
+
 // Initialization
 void init(){
+	//Created in Lab 3 by Andrejs Prihodjko and Edward Leander
 	LED = (volatile int *) 0xbf886110; //Set LED address equal to the PORTE address
 	*LED &= 0x0ff; //Mask the last byte 
 	
@@ -55,6 +87,7 @@ void init(){
 }
 
 // delay function
+//Andrejs Prihodjko
 void wait(int ms){
 	TMR2 = 0;
     int i = 0;
@@ -72,33 +105,6 @@ void object_draw(){
 }
 
 
-//does everything
-void work() {
-	//Conditions to start up the game 
-	while(difficulty == 0) {
-		wait(100);
-		setDifficulty();
-		displayDifficulty();
-	}
-	displayLives();
-	//While game is running
-	if (difficulty != 0 && lives != 0) {
-		display_map();
-		wait(5);
-		player_move();
-		pacman_draw(pacman_x, pacman_y);
-		ghost_draw(32,10);
-		display_update();
-	}	
-	
-	//Game end
-	if (lives == 0){
-		display_end();
-		wait(5000);
-		difficulty = 0;
-	}
-	
-}
 	
 void user_isr(void){
 	
@@ -126,19 +132,19 @@ void displayLives() {
 	}
 }
 
-
+//Andrejs Prihodjko
 void displayDifficulty() {
 	
 	//Check difficulty setting and turn on LED's accordingly (three on far left)
 	switch(difficulty) {
 		case 3:
-			*LED += (0x1 << 5);
+			PORTE += (0x1 << 5);
 			break;
 		case 2:
-			*LED += (0x1 << 6);
+			PORTE += (0x1 << 6);
 			break;
 		case 1:
-			*LED += (0x1 << 7);
+			PORTE += (0x1 << 7);
 			break;
 		default:
 			break;
@@ -146,10 +152,8 @@ void displayDifficulty() {
 	
 }
 
-
+//Edward Leander
 void setDifficulty() {
-		//swValue is wrong. FIX IT ------------------------------------------------------------
-		//*LED = swValue;
 		volatile int swValue = 0;
 		while(difficulty == 0) {
 			swValue = (volatile int) getsw();
@@ -180,6 +184,40 @@ void setDifficulty() {
 //SW3 = 0100
 //SW4 = 1000	
 
+//Edward Leander
+void resetGameSwitch() {
+	volatile int swValue = 0;
+	swValue = getsw();
+	if (swValue == 1){
+		difficulty = 0;
+		lives = 3;
+		display_start();
+		display_update();
+		
+		pacman_x = 56;
+		pacman_y = 10;
+		ghost1_x = 32;
+		ghost1_y = 10;
+		ghost2_x = 47;
+		ghost2_y = 10;
+		}
+	
+	
+}
+
+void resetGame() {
+		difficulty = 0;
+		lives = 3;
+		display_start();
+		display_update();
+		
+		pacman_x = 56;
+		pacman_y = 10;
+		ghost1_x = 32;
+		ghost1_y = 10;
+		ghost2_x = 47;
+		ghost2_y = 10;
+}
 
 
 	
