@@ -49,6 +49,8 @@ void hardDiffG1();
 void easyDiffG2();
 void mediumDiffG2();
 void hardDiffG2();
+double sqrt(double n);
+double absVal(double n);
 
 //Main
 void init();

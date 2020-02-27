@@ -21,6 +21,8 @@
 #define DISPLAY_TURN_OFF_VBAT (PORTFSET = 0x20)
 
 
+//Code written by Edward Leander, suggestions given by Fredrik Karlsson
+
 char display_matrix [128][32];
 char textbuffer[4][16];
 
