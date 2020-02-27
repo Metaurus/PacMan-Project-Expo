@@ -14,6 +14,8 @@
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "header.h"  /* Declatations for these labs */
 
+void *stdin, *stdout, *stderr; //Had stdout error (with stdlib or something) https://github.com/is1200-example-projects/mcb32tools/issues/6
+
 extern char pacman_x;
 extern char pacman_y;
 extern char ghost1_x;
@@ -46,7 +48,24 @@ void work() {
 		wait(3);
 		player_move();
 		pacman_draw(pacman_x, pacman_y);
-		ghost_draw(32,10);
+		ghost_draw(ghost1_x, ghost1_y);
+		ghost_draw(ghost2_x, ghost2_y);
+		switch(difficulty) {
+			case 1:
+				easyDiffG1();
+				easyDiffG2();
+				break;
+			case 2:
+				mediumDiffG1();
+				mediumDiffG2();
+				break;
+			case 3:
+				hardDiffG1();
+				hardDiffG2();
+				break;
+			default:
+				break;
+		}
 		display_update();
 		resetGameSwitch();
 	}	

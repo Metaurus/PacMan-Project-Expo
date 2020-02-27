@@ -1,6 +1,8 @@
 #include <stdint.h>   /* Declarations of uint_32 and the like */
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "header.h"  /* Declatations for these labs */
+#include <stdlib.h>
+#include <stdio.h>
 
 char pacman_x = 56;
 char pacman_y = 10;
@@ -8,6 +10,10 @@ char ghost1_x = 32;
 char ghost1_y = 10;
 char ghost2_x = 47;
 char ghost2_y = 10;
+
+extern *LED;
+
+extern char difficulty;
 
 //Created in conjunction by Andrejs and Edward
 
@@ -104,5 +110,169 @@ void player_move(){
 //SW3 = 0100
 //SW4 = 1000				
 }
+
+//AI Section
+
+//Easy AI - given address of ghost 1 or 2 position, then calculates random number
+// between 0 and 3 to decide which direction to move
+void easyDiffG1() {
+	int randomDir = rand() % 4;
+		switch(randomDir) {
+		case 0:
+			moveUp(&ghost1_x, &ghost1_y);
+			break;
+		case 1:
+			moveDown(&ghost1_x, &ghost1_y);
+			break;
+		case 2:
+			moveLeft(&ghost1_x, &ghost1_y);
+			break;
+		case 3:
+			moveRight(&ghost1_x, &ghost1_y);
+			break;
+		default:
+			break;
+	}
+}
+
+//Medium AI - given address of ghost 1 or 2 position, then calculates minimum distance based upon hypotenuse
+//Uses update strategy to determine which move results in the minimum distance. Then sets flag to determine which move
+//is most appropriate
+void mediumDiffG1() {
+	char flag = 0;
+	double temp = 0;
+	double minDist = ((pacman_x - ghost1_x) * (pacman_x - ghost1_x)) + ((pacman_y - ghost1_y) * (pacman_y - ghost1_y));
+	moveUp(&ghost1_x, &ghost1_y);
+	temp = ((pacman_x - ghost1_x) * (pacman_x - ghost1_x)) + ((pacman_y - ghost1_y) * (pacman_y - ghost1_y));
+	if(temp < minDist) {
+		minDist = temp;
+		flag = 0;
+	}
+	moveDown(&ghost1_x, &ghost1_y);
+	moveDown(&ghost1_x, &ghost1_y);
+	temp = ((pacman_x - ghost1_x) * (pacman_x - ghost1_x)) + ((pacman_y - ghost1_y) * (pacman_y - ghost1_y));
+	if(temp < minDist) {
+		minDist = temp;
+		flag = 1;
+	}
+	moveUp(&ghost1_x, &ghost1_y);
+	moveLeft(&ghost1_x, &ghost1_y);
+	temp = ((pacman_x - ghost1_x) * (pacman_x - ghost1_x)) + ((pacman_y - ghost1_y) * (pacman_y - ghost1_y));
+	if(temp < minDist) {
+		minDist = temp;
+		flag = 2;
+	}
+	moveRight(&ghost1_x, &ghost1_y);
+	moveRight(&ghost1_x, &ghost1_y);
+	temp = ((pacman_x - ghost1_x) * (pacman_x - ghost1_x)) + ((pacman_y - ghost1_y) * (pacman_y - ghost1_y));
+	if(temp < minDist) {
+		minDist = temp;
+		flag = 3;
+	}
+	moveLeft(&ghost1_x, &ghost1_y);
+	switch(flag) {
+		case 0:
+			moveUp(&ghost1_x, &ghost1_y);
+			break;
+		case 1:
+			moveDown(&ghost1_x, &ghost1_y);
+			break;
+		case 2:
+			moveLeft(&ghost1_x, &ghost1_y);
+			break;
+		case 3:
+			moveRight(&ghost1_x, &ghost1_y);
+			break;
+		default:
+			break;
+	}
+}
+
+//Hard AI - performs medium difficulty twice effectively doubling speed of ghosts
+void hardDiffG1() {
+	mediumDiffG1();
+	mediumDiffG1();
+}
+
+void easyDiffG2() {
+	int randomDir = rand() % 4;
+		switch(randomDir) {
+		case 0:
+			moveUp(&ghost2_x, &ghost2_y);
+			break;
+		case 1:
+			moveDown(&ghost2_x, &ghost2_y);
+			break;
+		case 2:
+			moveLeft(&ghost2_x, &ghost2_y);
+			break;
+		case 3:
+			moveRight(&ghost2_x, &ghost2_y);
+			break;
+		default:
+			break;
+	}
+}
+
+//Medium AI - given address of ghost 1 or 2 position, then calculates minimum distance based upon hypotenuse
+//Uses update strategy to determine which move results in the minimum distance. Then sets flag to determine which move
+//is most appropriate
+void mediumDiffG2() {
+	char flag = 0;
+	double temp = 0;
+	double minDist = ((pacman_x - ghost2_x) * (pacman_x - ghost2_x)) + ((pacman_y - ghost2_y) * (pacman_y - ghost2_y));
+	moveUp(&ghost2_x, &ghost2_y);
+	temp = ((pacman_x - ghost2_x) * (pacman_x - ghost2_x)) + ((pacman_y - ghost2_y) * (pacman_y - ghost2_y));
+	if(temp < minDist) {
+		minDist = temp;
+		flag = 0;
+	}
+	moveDown(&ghost2_x, &ghost2_y);
+	moveDown(&ghost2_x, &ghost2_y);
+	temp = ((pacman_x - ghost2_x) * (pacman_x - ghost2_x)) + ((pacman_y - ghost2_y) * (pacman_y - ghost2_y));
+	if(temp < minDist) {
+		minDist = temp;
+		flag = 1;
+	}
+	moveUp(&ghost2_x, &ghost2_y);
+	moveLeft(&ghost2_x, &ghost2_y);
+	temp = ((pacman_x - ghost2_x) * (pacman_x - ghost2_x)) + ((pacman_y - ghost2_y) * (pacman_y - ghost2_y));
+	if(temp < minDist) {
+		minDist = temp;
+		flag = 2;
+	}
+	moveRight(&ghost2_x, &ghost2_y);
+	moveRight(&ghost2_x, &ghost2_y);
+	temp = ((pacman_x - ghost2_x) * (pacman_x - ghost2_x)) + ((pacman_y - ghost2_y) * (pacman_y - ghost2_y));
+	if(temp < minDist) {
+		minDist = temp;
+		flag = 3;
+	}
+	moveLeft(&ghost2_x, &ghost2_y);
+	switch(flag) {
+		case 0:
+			moveUp(&ghost2_x, &ghost2_y);
+			break;
+		case 1:
+			moveDown(&ghost2_x, &ghost2_y);
+			break;
+		case 2:
+			moveLeft(&ghost2_x, &ghost2_y);
+			break;
+		case 3:
+			moveRight(&ghost2_x, &ghost2_y);
+			break;
+		default:
+			break;
+	}
+}
+
+//Hard AI - performs medium difficulty twice effectively doubling speed of ghosts
+void hardDiffG2() {
+	mediumDiffG2();
+	mediumDiffG2();
+}
+
+
 
 	

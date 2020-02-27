@@ -40,7 +40,15 @@ void moveUp(char * x, char * y);
 void moveDown(char * x, char * y);
 void moveLeft(char * x, char * y);
 void moveRight(char * x, char * y);
+
 void player_move();
+//AI
+void easyDiffG1();
+void mediumDiffG1();
+void hardDiffG1();
+void easyDiffG2();
+void mediumDiffG2();
+void hardDiffG2();
 
 //Main
 void init();
