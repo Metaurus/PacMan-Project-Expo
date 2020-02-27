@@ -49,20 +49,20 @@ void work() {
 		wait(3);
 		player_move();
 		pacman_draw(pacman_x, pacman_y);
-		//ghost_draw(ghost1_x, ghost1_y);
+		ghost_draw(ghost1_x, ghost1_y);
 		ghost_draw(ghost2_x, ghost2_y);
 		if(workTimer % 5 == 0) {
 			switch(difficulty) {
 			case 1:
-				//easyDiffG1();
+				easyDiffG1();
 				easyDiffG2();
 				break;
 			case 2:
-				//mediumDiffG1();
+				mediumDiffG1();
 				mediumDiffG2();
 				break;
 			case 3:
-				//hardDiffG1();
+				hardDiffG1();
 				hardDiffG2();
 				break;
 			default:
