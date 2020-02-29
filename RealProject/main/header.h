@@ -23,6 +23,7 @@ void ghost_draw(char x, char y);
 void reset(void);
 char * itoaconv( int num );
 void pixel_set(char x, char y, char set);
+void drawSprite(char array[8][8], char x, char y);
 
 
 //Bitmaps
@@ -31,7 +32,10 @@ extern const uint8_t const font[128*8];
 extern char textbuffer[4][16];
 char gameover_bitmap[16][128];
 char map_bitmap[32][128];
-char pacman_bitmap[8][8];
+char pacman_bitmapRIGHT[8][8];
+char pacman_bitmapLEFT[8][8];
+char pacman_bitmapUP[8][8];
+char pacman_bitmapDOWN[8][8];
 char start_bitmap[32][128];
 char ghost_bitmap[8][8];
 
@@ -42,6 +46,7 @@ void moveLeft(char * x, char * y);
 void moveRight(char * x, char * y);
 
 void player_move();
+char checkCollision();
 //AI
 void easyDiffG1();
 void mediumDiffG1();

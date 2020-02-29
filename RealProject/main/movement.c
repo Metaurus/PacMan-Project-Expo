@@ -4,12 +4,13 @@
 
 char pacman_x = 56;
 char pacman_y = 10;
-char ghost1_x = 87;
+char ghost1_x = 80;
 char ghost1_y = 10;
 char ghost2_x = 47;
 char ghost2_y = 10;
 
 extern *LED;
+char dir = 0; //0 = RIGHT, 1 = LEFT, 2 = DOWN, 3 = UP
 
 extern char difficulty;
 
@@ -103,16 +104,26 @@ void player_move(){
 	volatile int btnvalue = getbtns();
 	volatile int btn1 = getbtn1();
 	btnvalue += (btn1 << 3);
-
-		if ((btnvalue & 4) >> 2) //BTN4
+		//BTN4
+		if ((btnvalue & 4) >> 2)  {
+			dir = 3;
 			moveUp(&pacman_x, &pacman_y);
-		if ((btnvalue & 3) >> 1) //BTN3
+		}
+		//BTN3
+		if ((btnvalue & 3) >> 1) {
+			dir = 2;
 			moveDown(&pacman_x, &pacman_y);
-		if ((btnvalue & 1) >> 0) //BTN2
+		} 
+		//BTN2
+		if ((btnvalue & 1) >> 0) {
+			dir = 1;
 			moveLeft(&pacman_x, &pacman_y);
-		if ((btnvalue & 8) >> 3) //BTN1
+		} 
+		//BTN1
+		if ((btnvalue & 8) >> 3) {
+			dir = 0;
 			moveRight(&pacman_x, &pacman_y);	
-			
+		}
 
 //BTN2 = 001
 //BTN3 = 010
@@ -122,6 +133,15 @@ void player_move(){
 //SW2 = 0010
 //SW3 = 0100
 //SW4 = 1000				
+}
+
+char checkCollision() {
+	int i, j;
+	//If distance between center point of each ghost and pacman is below certain threshold, they have collided
+	//therefore return 1, otherwise return 0
+	if(absVal((ghost1_x + 3) - (pacman_x + 3)) < 3 && absVal((ghost1_y + 3) - (pacman_y + 3)) < 3) return 1;
+	else if(absVal((ghost2_x + 3) - (pacman_x + 3)) < 3 && absVal((ghost2_y + 3) - (pacman_y + 3)) < 3) return 1;
+	else return 0;
 }
 
 //AI Section

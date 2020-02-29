@@ -25,6 +25,7 @@ extern char ghost2_y;
 
 int workTimer = 0;
 int score = 0;
+int highScore = 0;
 char restart_text[16] = "High score: ";
 
 volatile int *LED;
@@ -45,6 +46,7 @@ void work() {
 	displayLives();
 	//While game is running
 	if (difficulty != 0 && lives != 0) {
+		displayLives();
 		display_map();
 		wait(3);
 		player_move();
@@ -52,6 +54,7 @@ void work() {
 		ghost_draw(ghost1_x, ghost1_y);
 		ghost_draw(ghost2_x, ghost2_y);
 		if(workTimer % 5 == 0) {
+			score++;
 			switch(difficulty) {
 			case 1:
 				easyDiffG1();
@@ -69,6 +72,15 @@ void work() {
 				break;
 			}
 		}
+		if(checkCollision()) {
+			lives--;
+			pacman_x = 56;
+			pacman_y = 10;
+			ghost1_x = rand() % 40;
+			ghost1_y = rand() % 28;
+			ghost2_x = (rand() % 40) + 80;
+			ghost2_y = rand() % 28;
+		}
 		
 		display_update();
 		resetGameSwitch();
@@ -76,8 +88,10 @@ void work() {
 	
 	//Game end
 	if (lives == 0){
+		if(score > highScore) highScore = score;
+		displayLives();
 		display_end();
-		wait(5000);
+		wait(1000);
 		resetGame();
 	}
 	workTimer++;
@@ -231,6 +245,7 @@ void resetGameSwitch() {
 void resetGame() {
 		difficulty = 0;
 		lives = 3;
+		score = 0;
 		display_start();
 		display_update();
 		

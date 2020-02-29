@@ -26,6 +26,11 @@
 char display_matrix [128][32];
 char textbuffer[4][16];
 
+extern dir;
+extern score;
+extern highScore;
+extern *LED;
+
 /* quicksleep:
    A simple function to create a small delay.
    Very inefficient use of computing resources,
@@ -178,10 +183,31 @@ void display_end(void) {
 //Edward Leander
 // displaying the pacman
 void pacman_draw(char x, char y){
+	switch(dir) {
+		case 0: //RIGHT
+			drawSprite(pacman_bitmapRIGHT, x, y);
+			break;
+		case 1: //LEFT
+			drawSprite(pacman_bitmapLEFT, x, y);
+			break;
+		case 2: //DOWN
+			drawSprite(pacman_bitmapDOWN, x, y);
+			break;	
+		case 3: //UP
+			drawSprite(pacman_bitmapUP, x, y);
+			break;
+		default:
+			drawSprite(pacman_bitmapRIGHT, x, y);
+			break;
+	}
+   
+}
+
+void drawSprite(char array[8][8], char x, char y) {
 	int i, j;
-    for(i = 0; i < 8; i++){
+	 for(i = 0; i < 8; i++){
         for(j = 0; j < 8; j++){
-           if (pacman_bitmap[j][i] == 1) {
+           if (array[j][i] == 1) {
 				pixel_on(x + i, y + j);   
             }
         }
