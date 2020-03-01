@@ -24,9 +24,10 @@ extern char ghost2_x;
 extern char ghost2_y;
 
 int workTimer = 0;
-int score = 0;
-int highScore = 0;
-char restart_text[16] = "High score: ";
+char score = 0;
+char highScore = 0;
+char score_text[16] = "Score: ";
+char highScore_text[16] = "High score: ";
 
 volatile int *LED;
 char difficulty = 0;
@@ -90,6 +91,10 @@ void work() {
 	if (lives == 0){
 		if(score > highScore) highScore = score;
 		displayLives();
+		display_score(3, score_text);
+		display_score(3, itoaconv(score));
+		display_score(4, highScore_text);
+		display_score(4, itoaconv(highScore));
 		display_end();
 		wait(1000);
 		resetGame();

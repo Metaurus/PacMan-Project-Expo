@@ -46,43 +46,20 @@ void pixel_set(char x, char y, char set){
 }
 
 // turns the number score in to displayable text
-void display_score(char *s, char line) {
-	int i;
+void display_score(int line, char *s) {
+	int i, j, c, k;
+	if(line < 0 || line >= 4)
+		return;
 	if(!s)
 		return;
 	
-	int length = 0;
-	while(*(s+length))
-		length++;
-	int pad = (16-length)/2;
-	for(i = 0; i < 16; i++){
-		textbuffer[line][i] =' ';
-	}
-	for(i = 0; i < length; i++){
-		if(*s) {
-			textbuffer[line][i+pad] = *s;
-			s++;
-		} else
-			textbuffer[line][i+ pad] = ' ';
-	}		
-}
-void display_score2(char *s, char line) {
-	int i;
-	if(!s)
-		return;
-	
-	int length = 0;
-	while(*(s+length))
-		length++;
-	int pad = (16-length)/2;
-	
-	for(i = 16-length; i < 16; i++){
+	for(i = 0; i < 16; i++) {
 		if(*s) {
 			textbuffer[line][i] = *s;
 			s++;
 		} else
-			textbuffer[line][i] = ' ';
-	}		
+			textbuffer[line][i] = ' ';	
+	}
 }
 
 // turns a pixel on
@@ -136,7 +113,6 @@ void display_update(void) {
 			display_send(value);
 		}
 	}
-	
 }
 
 //Edward Leander
@@ -169,13 +145,32 @@ void display_map(void) {
 // Game over screen 
 void display_end(void) {
 	reset();
-	int x, y; 					// start screen
+	int x, y;
+	int i, j, c, k;
+	// start screen
 	for(x = 0; x < 128; x++){
 		for(y = 0; y < 16; y++){
 			pixel_set(x, y, gameover_bitmap[y][x]);
 		}
 	}
-		display_update();
+	for(i = 2; i < 4; i++) {
+		
+		DISPLAY_CHANGE_TO_COMMAND_MODE;
+		display_send(0x22);
+		display_send(i);
+		
+		display_send(0x0);
+		display_send(0x10);
+		
+		DISPLAY_CHANGE_TO_DATA_MODE;
+
+		for(j = 0; j < 16; j++) {
+			c = textbuffer[i][j];
+			for(k = 0; k < 8; k++)
+				display_send(font[c*8 + k]);
+		}
+	}
+	display_update();
 }
 
 

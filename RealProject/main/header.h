@@ -9,7 +9,7 @@
 
 // display
 void display_init(void);
-void display_score( char *s, char line);
+void display_score(int line, char *s);
 void display_end(void);
 void display_start(void);
 void display_map(void);
