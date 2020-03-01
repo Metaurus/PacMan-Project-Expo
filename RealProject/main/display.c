@@ -21,7 +21,7 @@
 #define DISPLAY_TURN_OFF_VBAT (PORTFSET = 0x20)
 
 
-//Code written by Edward Leander, suggestions given by Fredrik Karlsson
+//Code written by Edward Leander, modifications done by Andrejs Prihodjko, suggestions given by Fredrik Karlsson
 
 char display_matrix [128][32];
 char textbuffer[4][16];
@@ -107,7 +107,7 @@ void display_update(void) {
 		
 		for(x = 0; x < 128; x++){
 			value = display_matrix[x][y*8];
-			for(k = 1; k < 8; k++){
+			for(k = 1; k < 8; k++) {
 				value += (display_matrix[x][y*8+k]<<k);
 			}
 			display_send(value);
@@ -153,6 +153,7 @@ void display_end(void) {
 			pixel_set(x, y, gameover_bitmap[y][x]);
 		}
 	}
+	display_update();
 	for(i = 2; i < 4; i++) {
 		
 		DISPLAY_CHANGE_TO_COMMAND_MODE;
@@ -166,11 +167,12 @@ void display_end(void) {
 
 		for(j = 0; j < 16; j++) {
 			c = textbuffer[i][j];
+			if(c & 0x80)
+				continue;
 			for(k = 0; k < 8; k++)
 				display_send(font[c*8 + k]);
 		}
 	}
-	display_update();
 }
 
 

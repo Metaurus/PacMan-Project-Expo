@@ -6,7 +6,7 @@ char pacman_x = 56;
 char pacman_y = 10;
 char ghost1_x = 80;
 char ghost1_y = 10;
-char ghost2_x = 47;
+char ghost2_x = 30;
 char ghost2_y = 10;
 
 extern *LED;
@@ -144,7 +144,7 @@ char checkCollision() {
 	else return 0;
 }
 
-//AI Section
+//AI Section (G1 = Ghost1, G2 = Ghost2)
 
 //Andrejs Prihodjko
 //Easy AI - given address of ghost 1 or 2 position, then calculates random number
@@ -233,6 +233,8 @@ void hardDiffG1() {
 }
 
 //Andrejs Prihodjko
+//Same AI but for Ghost 2 (had to be separate functions because of problems with x and y coordinate pointers)
+//This is exactly why object oriented programming was invented...
 void easyDiffG2() {
 	int randomDir = rand() % 4;
 		switch(randomDir) {
@@ -311,12 +313,14 @@ void hardDiffG2() {
 }
 
 //https://stackoverflow.com/questions/18861111/pseudo-code-for-sqrt-function
+//Returns square root value of a parameter (taken from StackOverflow)
 double sqrt(double n) {
 	double x = 1; x < 10; ++x;
 	return (x+n/x)/2;
 }
 
 //Andrejs Prihodjko
+//Returns absolute value of a parameter (had problems importing C Math Library, made our own function)
 double absVal(double n) {
 	if(n < 0) {
 		n *= -1;

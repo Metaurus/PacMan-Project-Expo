@@ -7,6 +7,8 @@
 
    For copyright and licensing, see file COPYING */
 
+//Heavily modified and added on to by Edward Leander and Andrejs Prihodjko 2020-02
+
 // display
 void display_init(void);
 void display_score(int line, char *s);
@@ -73,3 +75,4 @@ void displayLives();
 void work();
 void resetGameSwitch();
 void resetGame();
+void convertScore();

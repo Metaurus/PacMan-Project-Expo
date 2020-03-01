@@ -24,17 +24,18 @@ extern char ghost2_x;
 extern char ghost2_y;
 
 int workTimer = 0;
-char score = 0;
-char highScore = 0;
-char score_text[16] = "Score: ";
-char highScore_text[16] = "High score: ";
+int score = 0;
+int highScore = 0;
+char score_text[16] = "Score: "; //Must be length of 16 to write to entire line (16 * 8 = 128)
+char highScore_text[16] = "High Score: ";
 
 volatile int *LED;
 char difficulty = 0;
 char lives = 3;
 
-
 void wait(int ms);
+
+void user_isr(){}
 
 //does everything
 void work() {
@@ -45,27 +46,29 @@ void work() {
 		displayDifficulty();
 	}
 	displayLives();
+	resetGameSwitch(); //Checks to see if SW4 is on to reset game
 	//While game is running
 	if (difficulty != 0 && lives != 0) {
-		displayLives();
+		displayLives(); //Update lights to display lives
 		display_map();
 		wait(3);
 		player_move();
-		pacman_draw(pacman_x, pacman_y);
+		pacman_draw(pacman_x, pacman_y); //Draw all sprites on screen
 		ghost_draw(ghost1_x, ghost1_y);
 		ghost_draw(ghost2_x, ghost2_y);
-		if(workTimer % 5 == 0) {
+		if(workTimer % 5 == 0) { //Only every 5th iteration of 'work' will increment score and do ghost AI (done to slow down game)
 			score++;
+			if(score > 9999) score = 9999;
 			switch(difficulty) {
-			case 1:
+			case 1://Easy AI
 				easyDiffG1();
 				easyDiffG2();
 				break;
-			case 2:
+			case 2://Medium AI
 				mediumDiffG1();
 				mediumDiffG2();
 				break;
-			case 3:
+			case 3://Hard AI
 				hardDiffG1();
 				hardDiffG2();
 				break;
@@ -73,7 +76,7 @@ void work() {
 				break;
 			}
 		}
-		if(checkCollision()) {
+		if(checkCollision()) { //Checks if there is a collision between PacMan and Ghosts
 			lives--;
 			pacman_x = 56;
 			pacman_y = 10;
@@ -84,26 +87,21 @@ void work() {
 		}
 		
 		display_update();
-		resetGameSwitch();
 	}	
 	
 	//Game end
-	if (lives == 0){
-		if(score > highScore) highScore = score;
-		displayLives();
-		display_score(3, score_text);
-		display_score(3, itoaconv(score));
-		display_score(4, highScore_text);
-		display_score(4, itoaconv(highScore));
-		display_end();
-		wait(1000);
-		resetGame();
+	if (lives == 0) {
+		if(score > highScore) highScore = score; //If score > highScore, becomes new high score
+		displayLives(); //Makes sure all LED lights are off on game over
+		convertScore(); //Adds score values into displayable char array (makes sure everything is on one line)
+		display_score(2, score_text); //Displays score on line 2 (2*8 = 16 bits down)
+		display_score(3, highScore_text); //Displays highscore on line 3 (3*8 = 24 bits down)
+		display_end(); //Shows end screen and prints scores
+		wait(1000); //Waits certain amount of time before returning to main menu screen
+		resetGame(); //Resets the game
 	}
-	workTimer++;
-
+	workTimer++; //Separate counter of 'work' function, increments on each iteration of 'work'
 }
-
-
 
 // Initialization
 void init(){
@@ -113,12 +111,12 @@ void init(){
 	
 	PORTE = 0;
 	
-	//Button 2-4 and switches initilisation
+	//Button 2-4 and switches initialization
 	TRISDSET = 0xFE0;
 	TRISFSET = 0x2; //BTN1 implementation
 	
 	
-	//Timer initilisation
+	//Timer initialization
 	T2CONSET = 0x8070;
 	PR2 = 0x4e2;
 
@@ -140,16 +138,6 @@ void wait(int ms){
     	i++;
     	
     }
-}
-
-// displays obstacles
-void object_draw(){
-}
-
-
-	
-void user_isr(void){
-	
 }
 
 //Andrejs Prihodjko
@@ -236,18 +224,21 @@ void resetGameSwitch() {
 		display_start();
 		display_update();
 		
+		score = 0;
+		highScore = 0;
+		workTimer = 0;
 		pacman_x = 56;
 		pacman_y = 10;
-		ghost1_x = 32;
+		ghost1_x = 80;
 		ghost1_y = 10;
-		ghost2_x = 47;
+		ghost2_x = 30;
 		ghost2_y = 10;
-		}
 	
-	
+	}
 }
-
+//Edward Leander
 void resetGame() {
+	//Resets a lot of frequently used variables and goes to start screen
 		difficulty = 0;
 		lives = 3;
 		score = 0;
@@ -256,10 +247,24 @@ void resetGame() {
 		
 		pacman_x = 56;
 		pacman_y = 10;
-		ghost1_x = 32;
+		ghost1_x = 80;
 		ghost1_y = 10;
-		ghost2_x = 47;
+		ghost2_x = 30;
 		ghost2_y = 10;
+}
+//Andrejs Prihodjko
+void convertScore() {
+	//Takes score and highscore, separates into digits, and adds them into score character array to fit all on one line
+	int i, j, modulus = 10000;
+	for(i = 7; i <= 10; i++) { //Indices of score text array which will display score value
+		score_text[i] = ((score % modulus) / (modulus/10)) + 48; //Add 48 to convert into proper ASCII value
+		modulus /= 10;
+	}
+	modulus = 10000;
+	for(i = 12; i <= 15; i++) {
+		highScore_text[i] = ((highScore % modulus) / (modulus/10)) + 48;
+		modulus /= 10;
+	}
 }
 
 

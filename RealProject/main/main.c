@@ -64,6 +64,7 @@ int main(void) {
 	
 	display_start();
 	
+	//MAIN GAME LOOP
 	while( 1 )
 	{
 	  work(); /* Do things again and again */
