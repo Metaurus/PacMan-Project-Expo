@@ -37,6 +37,8 @@ void wait(int ms);
 
 void user_isr(){}
 
+
+//Written in conjunction by Edward Leander and Andrejs Prihodko
 //does everything
 void work() {
 	//Conditions to start up the game 
@@ -76,6 +78,7 @@ void work() {
 				break;
 			}
 		}
+		
 		if(checkCollision()) { //Checks if there is a collision between PacMan and Ghosts
 			lives--;
 			pacman_x = 56;
