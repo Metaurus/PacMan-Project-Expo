@@ -40,11 +40,13 @@ void quicksleep(int cyc) {
 	for(i = cyc; i > 0; i--);
 }
 
+//Edward Leander
 // set a pixel to a value
 void pixel_set(char x, char y, char set){
 	display_matrix [x][y] = set;
 }
 
+//Andrejs Prihodko
 // turns the number score in to displayable text
 void display_score(int line, char *s) {
 	int i, j, c, k;
@@ -62,11 +64,13 @@ void display_score(int line, char *s) {
 	}
 }
 
+//Edward Leander
 // turns a pixel on
 void pixel_on(char x, char y){
 	display_matrix[x][y] = 1;
 }
 
+//Edward Leander
 // turns a pixel off
 void pixel_off(char x, char y){
 	display_matrix[x][y] = 0;
@@ -80,6 +84,7 @@ uint8_t display_send(uint8_t data) {
 	return SPI2BUF;
 }
 
+//Edward Leander
 // turns all pixels off
 void reset(void){
 	int x, y;
@@ -91,6 +96,7 @@ void reset(void){
 	display_update();
 }
 
+//Edward Leander, similar to lab 3, minor alterations
 // updates the screen
 void display_update(void) {
 	int y, x, k;
@@ -153,6 +159,8 @@ void display_end(void) {
 			pixel_set(x, y, gameover_bitmap[y][x]);
 		}
 	}
+	
+	//Andrejs Prihodko
 	display_update();
 	for(i = 2; i < 4; i++) {
 		
@@ -177,7 +185,7 @@ void display_end(void) {
 
 
 
-//Edward Leander
+//Edward Leander and Andrejs Prihodko
 // displaying the pacman
 void pacman_draw(char x, char y){
 	switch(dir) {
@@ -200,6 +208,7 @@ void pacman_draw(char x, char y){
    
 }
 
+//Andrejs Prihodko
 void drawSprite(char array[8][8], char x, char y) {
 	int i, j;
 	 for(i = 0; i < 8; i++){
