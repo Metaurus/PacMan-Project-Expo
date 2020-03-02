@@ -14,9 +14,8 @@ char dir = 0; //0 = RIGHT, 1 = LEFT, 2 = DOWN, 3 = UP
 
 extern char difficulty;
 
-//Created in conjunction by Andrejs and Edward
 
-
+//Edward Leander
 // *x and *y are top left corner
 void moveUp(char * x, char * y) {
 	char nextY = (*y) - 1;
@@ -39,6 +38,7 @@ void moveUp(char * x, char * y) {
 
 }
 
+//Edward Leander
 void moveDown(char * x, char * y) {
 	char nextY = (*y) + 7 + 1;
 	char x1 = (*x)+1;
@@ -59,7 +59,7 @@ void moveDown(char * x, char * y) {
 	
 
 }
-
+//Edward Leander
 void moveRight(char * x, char * y) {
 	char nextX = (*x) + 7 + 1;
 	char y1 = (*y)+1;
@@ -80,6 +80,7 @@ void moveRight(char * x, char * y) {
 
 }
 
+//Edward Leander
 void moveLeft(char * x, char * y) {
 	char nextX = (*x) - 1;
 	char y1 = (*y)+1;
@@ -99,7 +100,7 @@ void moveLeft(char * x, char * y) {
 	if(!flag) (*x) = (*x) - 1;
 }
 
-
+//Andrejs Prihodko
 void player_move(){
 	volatile int btnvalue = getbtns();
 	volatile int btn1 = getbtn1();
@@ -135,6 +136,7 @@ void player_move(){
 //SW4 = 1000				
 }
 
+//Andrejs Prihodko
 char checkCollision() {
 	int i, j;
 	//If distance between center point of each ghost and pacman is below certain threshold, they have collided
